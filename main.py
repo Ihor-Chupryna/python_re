@@ -9,15 +9,15 @@ import sqlite3
 # con.commit()
 # con.close()
 
-
-user = {
-    'user_id': 1215,
-    'subject': 'js',
-    'level': 'beginner',
-    'task': '',
-    'answer': ''
-}
-print(f'user {user}')
+#
+# user = {
+#     'user_id': 1215,
+#     'subject': 'js',
+#     'level': 'beginner',
+#     'task': '',
+#     'answer': ''
+# }
+# print(f'user {user}')
 
 
 # query = '''
@@ -28,43 +28,32 @@ print(f'user {user}')
 # con.commit()
 # con.close()
 
-# def get_data():
-#     con = sqlite3.connect('db.sqlite')
-#     con.row_factory = sqlite3.Row
-#     cur = con.cursor()
-# #
-#     current_user = {
-#         'user_id': '',
-#         'subject': '',
-#         'level': '',
+def get_data():
+    user = {}
+    try:
+        con = sqlite3.connect('db.sqlite')
+        cur = con.cursor()
+        query = cur.execute('''
+            SELECT user_id, subject, level
+            FROM users5
+            LIMIT 1
+            ''')
+
+        res = query.fetchall()
+        user['user_id'] = res[0][0]
+        user['subject'] = res[0][1]
+        user['level'] = res[0][2]
+        print('gеt data from database')
+    except sqlite3.Error as error:
+        print('error from db:', error)
+    finally:
+        con.close()
+        return user
 #
-#     }
-#     query = cur.execute('''
-#         SELECT user_id, subject, level
-#         FROM users5
-#         LIMIT 1
-#         ''')
-#
-#     for item in query:
-#         print(type(item['user_id']))
-#         # print(item['subject'])
-#         # print(item['level'])
-#         # user['user_id'] = item['user_id']
-#         # user['subject'] = item['subject']
-#         # user['level'] = item['level']
-#         print('------------------')
-#         current_user['user_id'] = item['user_id'],
-#         print(item['user_id'])
-#         current_user['subject'] = item['subject'],
-#         current_user['level'] = item['level'],
-#
-#     con.close()
-#     print(current_user)
-#     return current_user
-#
-# #
-# cur_user = get_data()
-# print(f'by func {cur_user["user_id"]}')
+# get_data()
+cur_user = get_data()
+
+# print(f'return func {cur_user["user_id"]}, {cur_user["subject"]}, {cur_user["level"]}')
 
 
 def insert_data(user_id=None, subject=None, level=None, task=None, answer=None):
@@ -86,7 +75,7 @@ def insert_data(user_id=None, subject=None, level=None, task=None, answer=None):
 tsk = 'how many variable....'
 ans = 'Very many....'
 
-insert_data(user['user_id'], user['subject'], user['level'], tsk, ans)
+insert_data(cur_user["user_id"], cur_user["subject"], cur_user["level"], tsk, ans)
 
 # query = cur.execute('SELECT * FROM video_products')
 # for res in query:
