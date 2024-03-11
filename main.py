@@ -3,12 +3,19 @@ import sqlite3
 # con = sqlite3.connect('db.sqlite')
 # cur = con.cursor()
 
-# cur.execute('''
-# DELETE FROM users5;
-# ''')
-# con.commit()
-# con.close()
+def delete_data(id):
+    try:
+        con = sqlite3.connect('db.sqlite')
+        cur = con.cursor()
+        cur.execute(f'DELETE FROM users2 WHERE user_id = ?', (id,))
+        con.commit()
+        print('----')
+    except sqlite3.Error as error:
+        print('error from database:', error)
+    finally:
+         con.close()
 
+delete_data(1111)
 #
 # user = {
 #     'user_id': 1215,
@@ -28,31 +35,31 @@ import sqlite3
 # con.commit()
 # con.close()
 
-def get_data():
-    user = {}
-    try:
-        con = sqlite3.connect('db.sqlite')
-        cur = con.cursor()
-        query = cur.execute('''
-            SELECT user_id, subject, level
-            FROM users5
-            LIMIT 1
-            ''')
-
-        res = query.fetchall()
-        user['user_id'] = res[0][0]
-        user['user_id'] = res[0][1]
-        user['subject'] = res[0][2]
-        user['level'] = res[0][3]
-        print('gеt data from database')
-    except sqlite3.Error as error:
-        print('error from db:', error)
-    finally:
-        con.close()
-        return user
+# def get_data():
+#     user = {}
+#     try:
+#         con = sqlite3.connect('db.sqlite')
+#         cur = con.cursor()
+#         query = cur.execute('''
+#             SELECT user_id, subject, level
+#             FROM users5
+#             LIMIT 1
+#             ''')
 #
-# get_data()
-cur_user = get_data()
+#         res = query.fetchall()
+#         user['user_id'] = res[0][0]
+#         user['user_id'] = res[0][1]
+#         user['subject'] = res[0][2]
+#         user['level'] = res[0][3]
+#         print('gеt data from database')
+#     except sqlite3.Error as error:
+#         print('error from db:', error)
+#     finally:
+#         con.close()
+#         return user
+# #
+# # get_data()
+# cur_user = get_data()
 
 # print(f'return func {cur_user["user_id"]}, {cur_user["subject"]}, {cur_user["level"]}')
 
