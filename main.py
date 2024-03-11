@@ -41,8 +41,9 @@ def get_data():
 
         res = query.fetchall()
         user['user_id'] = res[0][0]
-        user['subject'] = res[0][1]
-        user['level'] = res[0][2]
+        user['user_id'] = res[0][1]
+        user['subject'] = res[0][2]
+        user['level'] = res[0][3]
         print('gеt data from database')
     except sqlite3.Error as error:
         print('error from db:', error)
@@ -56,26 +57,26 @@ cur_user = get_data()
 # print(f'return func {cur_user["user_id"]}, {cur_user["subject"]}, {cur_user["level"]}')
 
 
-def insert_data(user_id=None, subject=None, level=None, task=None, answer=None):
-    try:
-        con = sqlite3.connect('db.sqlite')
-        cur = con.cursor()
-        cur.execute(f'INSERT INTO users6(user_id, subject, level, task, answer)'
-                    f'VALUES (?, ?, ?, ?, ?);',
-                    (user_id, subject, level, task, answer))
-        print('data is written to the database')
-        con.commit()
-    except sqlite3.Error as error:
-        print(f'Error database:', error)
-    finally:
-        con.close()
-
-
-
-tsk = 'how many variable....'
-ans = 'Very many....'
-
-insert_data(cur_user["user_id"], cur_user["subject"], cur_user["level"], tsk, ans)
+# def insert_data(user_id=None, name=None, subject=None, level=None, task=None, answer=None):
+#     try:
+#         con = sqlite3.connect('db.sqlite')
+#         cur = con.cursor()
+#         cur.execute(f'INSERT INTO users6(user_id, name, subject, level, task, answer)'
+#                     f'VALUES (?, ?, ?, ?, ?, ?);',
+#                     (user_id, name, subject, level, task, answer))
+#         print('data is written to the database')
+#         con.commit()
+#     except sqlite3.Error as error:
+#         print(f'Error database:', error)
+#     finally:
+#         con.close()
+#
+#
+#
+# tsk = 'how many variable....'
+# ans = 'Very many....'
+#
+# insert_data(cur_user["user_id"], cur_user["subject"], cur_user["level"], tsk, ans)
 
 # query = cur.execute('SELECT * FROM video_products')
 # for res in query:
@@ -88,9 +89,10 @@ insert_data(cur_user["user_id"], cur_user["subject"], cur_user["level"], tsk, an
 #     con = sqlite3.connect('db.sqlite')
 #     cur = con.cursor()
 #     cur.execute('''
-#         CREATE TABLE IF NOT EXISTS users6(
+#         CREATE TABLE IF NOT EXISTS users_fin(
 #         id INTEGER PRIMARY KEY AUTOINCREMENT,
 #         user_id INTEGER,
+#         user INTEGER
 #         subject TEXT,
 #         level TEXT,
 #         task TEXT,
